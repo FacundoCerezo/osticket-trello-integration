@@ -79,7 +79,7 @@ class TrelloPlugin extends Plugin {
         // Need to fetch the ticket from the ThreadEntry
         $ticket = $this->getTicket($entry);
         $status = "updated";
-        $this->sendToWebhook($ticket, $status);
+        #$this->sendToWebhook($ticket, $status);
     }
 
     /**
@@ -101,7 +101,7 @@ class TrelloPlugin extends Plugin {
         $apikey = $this->getConfig()->get('trello-api-key');
         $token = $this->getConfig()->get('trello-api-token');
         $listid = $this->getConfig()->get('trello-list-id');
-
+        $trelloLabel = $this->getConfig()->get('trello-label-id');
         if (!$url || !$apikey || !$token || !$listid) {
             $ost->logError('Trello Integration', 'Your configuration in Trello Integration may need changes.');
         }
@@ -110,16 +110,30 @@ class TrelloPlugin extends Plugin {
         $staff = $ticket->getStaff();
         $urlsrc = $ost->getConfig()->getUrl()."scp/tickets.php?id=".$ticket->getId();
 
-        $payload['body'] = [
+
+        $answ = "";
+        if ($ticket->_answers){
+            foreach ($ticket->_answers as $answer) {
+                if ($answer->_value && is_string($answer->_value)) {
+                    $fieldLabel = $answer->_field->ht["label"]?: $answer->_field->ht["name"];
+                    $fieldValue = strip_tags($answer->_value);
+                    $line = "*".$fieldLabel."*: ".$fieldValue;
+                    $answ = $answ . $line . "\r\n\n";
+                }
+            }
+        }
+        $payload = [
             //'staff'       => $staff ? $staff->getUsername() : "",
-            'name'       => "T: ".$ticket->getNumber() ." - ". $ticket->getSubject(),
+            'name'       => "#".$ticket->getNumber() ." - ". $ticket->getSubject(). " - ".$ticket->getName(),
             //'number'      => $ticket->getNumber(),
-            'desc'      => $ticket->getSubject(). "\n".$ticket->getName(),
+            'desc'      => $answ,
             'urlSource'         => $urlsrc,
-            'pos' => 'top'
+            'pos' => 'top',
+            'idList' => $listid,
+            'idLabels' => [ $trelloLabel ]
         ];
 
-        $callurl = "https://api.trello.com/1/cards?listId=".$listid."&key=".$apikey."&token=".$token;
+        $callurl = "https://api.trello.com/1/cards?key=".$apikey."&token=".$token;
 
         // Format the payload:
         $data_string = utf8_encode(json_encode($payload));

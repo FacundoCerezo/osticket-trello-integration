@@ -33,7 +33,7 @@ class TrelloPluginConfig extends PluginConfig {
                 'default'  => 'https://api.trello.com/1/cards',
                 'placeholder'   => "For mobile app osTicket Admin, use this Webhook URL: https://api.osticket.com.br/push_notification",
                 'configuration' => array(
-                    'size'   => 130,
+                    'size'   => 80,
                     'length' => 300
                 )
                     )),
@@ -43,7 +43,7 @@ class TrelloPluginConfig extends PluginConfig {
                 'default'  => '',
                 'placeholder'   => "Set Trello API Key",
                 'configuration' => array(
-                    'size'   => 130,
+                    'size'   => 80,
                     'length' => 300
                 )
             )),
@@ -53,7 +53,7 @@ class TrelloPluginConfig extends PluginConfig {
                 'default'  => '',
                 'placeholder'   => "Set Trello API Token",
                 'configuration' => array(
-                    'size'   => 130,
+                    'size'   => 100,
                     'length' => 300
                 )
             )),
@@ -63,7 +63,7 @@ class TrelloPluginConfig extends PluginConfig {
                 'default'  => '',
                 'placeholder'   => "Set Trello Workspace ID",
                 'configuration' => array(
-                    'size'   => 130,
+                    'size'   => 50,
                     'length' => 300
                 )
             )),
@@ -73,7 +73,7 @@ class TrelloPluginConfig extends PluginConfig {
                 'default'  => '',
                 'placeholder'   => "Set Trello Board",
                 'configuration' => array(
-                    'size'   => 130,
+                    'size'   => 50,
                     'length' => 300
                 )
             )),
@@ -83,10 +83,20 @@ class TrelloPluginConfig extends PluginConfig {
                 'default'  => '652834f49a0e74517d6abf87',
                 'placeholder'   => "Set Trello List ID",
                 'configuration' => array(
-                    'size'   => 130,
+                    'size'   => 50,
                     'length' => 300
                 )
-            ))
+            )),
+            'trello-label-id'          => new TextboxField(array(
+                'label'         => $__('Trello Label ID'),
+                'required'=>false,
+                'default'  => '',
+                'placeholder'   => "Set Trello Label ID",
+                'configuration' => array(
+                    'size'   => 50,
+                    'length' => 300
+                )
+            )),
         );
     }
 

@@ -2,7 +2,7 @@
 
 return array(
     'id'          => 'osticket:trello',
-    'version'     => '0.1',
+    'version'     => '0.2',
     'name'        => 'Trello Integration',
     'author'      => 'Facundo Cerezo',
     'description' => 'Trello Integration based on osticket-webhook by Luis Pimienta.',
